@@ -1,10 +1,11 @@
 import Image from "next/image";
+import AuthForm from "./components/authform";
 
 export default function Home() {
   return (
     <div className="flex min-h-full flex-col jusitfy-center py-12 sm:px-6 lg:px-8 bg-gray-100">
       {/* removing sm:mx-auto because it breaking the center of ui */}
-      <div className="sm:m-auto sm:w-full sm:max-w-md">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <Image
           alt="Logo"
           src="/images/logo.png"
@@ -17,6 +18,7 @@ export default function Home() {
         </h2>
       </div>
       {/* Auth Form */}
+      <AuthForm />
     </div>
   );
 }
