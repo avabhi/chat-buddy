@@ -1,8 +1,11 @@
 // it used to tell next that it is not a server component because it has form
 "use client";
-import Input from "@/app/components/input";
+import Button from "@/app/components/button";
+import Input from "@/app/components/inputs";
 import React, { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import AuthSocialButton from "../authSocialButton";
+import { BsGithub, BsGoogle } from "react-icons/bs";
 
 type FormVariant = "LOGIN" | "REGISTER";
 const AuthForm = () => {
@@ -45,8 +48,71 @@ const AuthForm = () => {
     <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-          <Input register={register} id="email" label="email" errors={errors} />
+          {formVariant === "REGISTER" && (
+            <>
+              {" "}
+              <Input
+                register={register}
+                id="name"
+                label="Your Name"
+                errors={errors}
+              />
+            </>
+          )}
+          <Input
+            register={register}
+            id="email"
+            label="Your Email"
+            errors={errors}
+          />
+          <Input
+            register={register}
+            id="password"
+            label="Your Password"
+            errors={errors}
+          />
+          <div>
+            <Button disabled={isLoading} fullWidth={true} type="submit">
+              {formVariant === "LOGIN" ? "Sign in" : "Register"}
+            </Button>
+          </div>
         </form>
+        <div className="mt-6">
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="bg-white px-2 text-gray-500">
+                Or Continue With
+              </span>
+            </div>
+          </div>
+
+          <div className="mt-6 flex gap-2">
+            <AuthSocialButton
+              icon={BsGithub}
+              onClick={() => socialSignin("github")}
+            />
+            <AuthSocialButton
+              icon={BsGoogle}
+              onClick={() => socialSignin("github")}
+            />
+          </div>
+        </div>
+        <div className="flex gap-2 justify-center text-sm mt-6 px-2 text-gray-500">
+          <div>
+            {formVariant === "LOGIN"
+              ? "New to Messenger?"
+              : "Already have an account?"}
+          </div>
+          <div
+            onClick={toggleFormVaraint}
+            className="underline cursor-pointer "
+          >
+            {formVariant === "LOGIN" ? "Create an account" : "Login"}
+          </div>
+        </div>
       </div>
     </div>
   );

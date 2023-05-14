@@ -23,7 +23,7 @@ const Input: React.FC<InputProps> = ({
   disabled,
 }) => {
   return (
-    <div>
+    <div className="flex gap-y-[8px] flex-col">
       <label
         htmlFor={id}
         className="block text-sm font-medium leading-6 text-gray-900"
