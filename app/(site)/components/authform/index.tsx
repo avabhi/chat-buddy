@@ -6,6 +6,7 @@ import React, { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import AuthSocialButton from "../authSocialButton";
 import { BsGithub, BsGoogle } from "react-icons/bs";
+import axios from "axios";
 
 type FormVariant = "LOGIN" | "REGISTER";
 const AuthForm = () => {
@@ -36,6 +37,7 @@ const AuthForm = () => {
       // NEXTAUTH SIGNIN
     } else if (formVariant === "REGISTER") {
       //REGISTER USER
+      axios.post("/api/register", data);
     }
   };
 
