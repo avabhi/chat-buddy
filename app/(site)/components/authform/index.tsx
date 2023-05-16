@@ -2,18 +2,27 @@
 "use client";
 import Button from "@/app/components/button";
 import Input from "@/app/components/inputs";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import AuthSocialButton from "../authSocialButton";
 import { BsGithub, BsGoogle } from "react-icons/bs";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type FormVariant = "LOGIN" | "REGISTER";
 const AuthForm = () => {
+  const session = useSession();
+  const router = useRouter();
   const [formVariant, setFormVariant] = useState<FormVariant>("LOGIN");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  useEffect(() => {
+    if (session?.status === "authenticated") {
+      console.log("I am authenticated");
+      router.push("/users");
+    }
+  }, [session?.status, router]);
   const toggleFormVaraint = useCallback(() => {
     if (formVariant === "LOGIN") {
       setFormVariant("REGISTER");
@@ -46,6 +55,7 @@ const AuthForm = () => {
             toast.error("Invalid credentials");
           } else if (callback?.ok) {
             toast.success("Logged In!");
+            router.push("/users");
           }
         })
         .finally(() => setIsLoading(false));
@@ -53,6 +63,7 @@ const AuthForm = () => {
       //REGISTER USER
       axios
         .post("/api/register", data)
+        .then(() => signIn("credentials", data))
         .catch(() => toast.error("Something Went Wromg!"))
         .finally(() => setIsLoading(false));
     }
