@@ -1,8 +1,9 @@
 "use client";
 import useConversation from "@/app/hooks/useConversation";
 import { FullMessageType } from "@/app/types";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import MessageBox from "./MessageBox";
+import axios from "axios";
 
 interface IBodyProps {
   initialMessages: FullMessageType[];
@@ -12,6 +13,9 @@ const Body: React.FC<IBodyProps> = ({ initialMessages }) => {
   const [messages, seMessages] = useState(initialMessages);
   const bottomRef = useRef<HTMLDivElement>(null);
   const { conversationId } = useConversation();
+  useEffect(() => {
+    axios.post(`/api/conversations/${conversationId}/seen`);
+  }, [conversationId]);
   return (
     <div className="flex-1 overflow-y-auto">
       {messages.map((message, i) => (
