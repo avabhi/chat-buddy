@@ -6,7 +6,8 @@ import { format } from "date-fns";
 import { is } from "date-fns/locale";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
+import ImageModal from "./ImageModal";
 
 interface IMessageBoxProps {
   isLast: boolean;
@@ -15,13 +16,13 @@ interface IMessageBoxProps {
 
 const MessageBox: React.FC<IMessageBoxProps> = ({ isLast, data }) => {
   const session = useSession();
+  const [imageModalOpen, setImageModalOpen] = useState(false);
   const isOwn = session?.data?.user?.email === data?.sender?.email;
 
   const seenList = (data.seen || [])
     .filter((user) => user.email !== data?.sender?.email)
     .map((user) => user.name)
     .join(", ");
-  console.log("seenList", seenList);
   const container = clsx(`flex gap-3 p-4`, isOwn && "justify-end");
   const avatar = clsx(isOwn && "order-2");
   const body = clsx("flex flex-col gap-2 ", isOwn && "items-end");
@@ -45,13 +46,19 @@ const MessageBox: React.FC<IMessageBoxProps> = ({ isLast, data }) => {
           </div>
         </div>
         <div className={message}>
+          <ImageModal
+            src={data.image}
+            isOpen={imageModalOpen}
+            onClose={() => setImageModalOpen(false)}
+          />
           {data.image ? (
             <Image
+              onClick={() => setImageModalOpen(true)}
               alt="image"
               height="288"
               width="288"
               src={data.image}
-              className="object-cover cursor-pointer hover:scale-100 transition transalte"
+              className="object-cover cursor-pointer hover:scale-110 transition transalte"
             />
           ) : (
             <div>{data.body}</div>
