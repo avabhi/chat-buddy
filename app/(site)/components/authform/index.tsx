@@ -64,7 +64,7 @@ const AuthForm = () => {
       axios
         .post("/api/register", data)
         .then(() => signIn("credentials", data))
-        .catch(() => toast.error("Something Went Wromg!"))
+        .catch(() => toast.error("Something Went Wrong!"))
         .finally(() => setIsLoading(false));
     }
   };
