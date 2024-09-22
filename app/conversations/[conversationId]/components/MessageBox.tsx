@@ -37,6 +37,7 @@ const MessageBox: React.FC<IMessageBoxProps> = ({ isLast, data }) => {
             : "rounded-t-[12px] rounded-r-[12px]"
         } py-2 px-3`
   );
+  console.log("");
 
   return (
     <div className={container}>
