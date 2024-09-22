@@ -1,5 +1,4 @@
 "use client";
-
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 
@@ -8,7 +7,7 @@ import useConversation from "@/app/hooks/useConversation";
 import MessageBox from "./MessageBox";
 import { FullMessageType } from "@/app/types";
 import { find } from "lodash";
-import bg from '../../../../public/images/background1.png'
+import bg from "../../../../public/images/background1.png";
 
 interface BodyProps {
   initialMessages: FullMessageType[];
@@ -65,11 +64,14 @@ const Body: React.FC<BodyProps> = ({ initialMessages = [] }) => {
   }, [conversationId]);
 
   return (
-    <div className="flex-1 overflow-y-auto" style={{
-      backgroundImage: `url(${bg.src})`,
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-    }}>
+    <div
+      className="flex-1 overflow-y-auto"
+      style={{
+        backgroundImage: `url(${bg.src})`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       {messages.map((message, i) => (
         <MessageBox
           isLast={i === messages.length - 1}

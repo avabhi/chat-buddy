@@ -24,12 +24,14 @@ const MessageBox: React.FC<IMessageBoxProps> = ({ isLast, data }) => {
     .map((user) => user.name)
     .join(", ");
   const container = clsx(`flex gap-3 p-4`, isOwn && "justify-end");
-  const avatar = clsx(isOwn && "order-2");
+  const avatar = clsx(isOwn && "order-2 flex items-end mb-[0.75rem]");
   const body = clsx("flex flex-col gap-2 ", isOwn && "items-end");
   const message = clsx(
     "text-sm w-fit overflow-hidden",
     isOwn ? "bg-sky-500 text-white" : "bg-gray-100 ",
-    data.image ? "rounded-md p-0" : "rounded-full py-2 px-3"
+    data.image
+      ? "rounded-md p-0"
+      : "rounded-t-[12px] rounded-l-[12px] py-2 px-3"
   );
 
   return (
@@ -38,12 +40,6 @@ const MessageBox: React.FC<IMessageBoxProps> = ({ isLast, data }) => {
         <Avatar user={data.sender} />
       </div>
       <div className={body}>
-        <div className="flex items-center gap-1">
-          <div className="text-sm text-gray-800">{data.sender.name}</div>
-          <div className="text-xs text-gray-600">
-            {format(new Date(data.createdAt), "p")}
-          </div>
-        </div>
         <div className={message}>
           <ImageModal
             src={data.image}
@@ -60,8 +56,14 @@ const MessageBox: React.FC<IMessageBoxProps> = ({ isLast, data }) => {
               className="object-cover cursor-pointer hover:scale-110 transition transalte"
             />
           ) : (
-            <div>{data.body}</div>
+            <div className="max-w-[20rem]">{data.body}</div>
           )}
+        </div>
+        <div className="flex items-center gap-1">
+          <div className="text-sm text-gray-800">{data.sender.name}</div>
+          <div className="text-xs text-gray-600">
+            {format(new Date(data.createdAt), "p")}
+          </div>
         </div>
 
         {isLast && isOwn && seenList.length > 0 && (
