@@ -31,11 +31,13 @@ const MessageBox: React.FC<IMessageBoxProps> = ({ isLast, data }) => {
     isOwn ? "bg-sky-500 text-white" : "bg-gray-100 ",
     data.image
       ? "rounded-md p-0"
-      : `${
-          isOwn
-            ? "rounded-t-[12px] rounded-l-[12px]"
-            : "rounded-t-[12px] rounded-r-[12px]"
-        } py-2 px-3`
+      : "rounded-t-[12px] rounded-l-[12px] py-2 px-3"
+
+    // `${
+    //     isOwn
+    //       ? "rounded-t-[12px] rounded-l-[12px]"
+    //       : "rounded-t-[12px] rounded-r-[12px]"
+    //   } py-2 px-3`
   );
   console.log("");
 
