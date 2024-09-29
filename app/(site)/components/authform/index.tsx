@@ -35,6 +35,7 @@ const AuthForm = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<FieldValues>({
     defaultValues: {
       name: "",
@@ -44,6 +45,13 @@ const AuthForm = () => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    if (data.password.length < 8) {
+      setError("password", {
+        type: "manual",
+        message: "Password must be at least 8 characters long",
+      });
+      return;
+    }
     setIsLoading(true);
     if (formVariant === "LOGIN") {
       // NEXTAUTH SIGNIN
@@ -103,14 +111,6 @@ const AuthForm = () => {
               />
             </>
           )}
-          {/* <Input
-            register={register}
-            id="email"
-            label="Your Email"
-            errors={errors}
-            disabled={isLoading}
-            type="email"
-          /> */}
           <TextField
             id="email"
             label="Email"
@@ -119,7 +119,6 @@ const AuthForm = () => {
             disabled={isLoading}
             {...register("email", { required: true })}
             className="w-full"
-            // required
             error={errors.email ? true : false}
             helperText={errors.email ? "Email is required" : ""}
           />
@@ -128,20 +127,13 @@ const AuthForm = () => {
             label="Password"
             variant="outlined"
             type="password"
-            {...register("password", { required: true })}
+            {...register("password", {
+              required: true,
+            })}
             className="w-full"
-            // required
             error={errors.password ? true : false}
             helperText={errors.password ? "Password is required" : ""}
             disabled={isLoading}
-          />
-          <Input
-            register={register}
-            id="password"
-            label="Your Password"
-            errors={errors}
-            disabled={isLoading}
-            type="password"
           />
           <div>
             <Button disabled={isLoading} fullWidth={true} type="submit">
