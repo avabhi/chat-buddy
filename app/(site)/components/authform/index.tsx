@@ -10,6 +10,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import TextField from "@mui/material/TextField";
 
 type FormVariant = "LOGIN" | "REGISTER";
 const AuthForm = () => {
@@ -85,6 +86,7 @@ const AuthForm = () => {
       })
       .finally(() => setIsLoading(false));
   };
+  console.log("errors", errors);
   return (
     <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
@@ -101,13 +103,37 @@ const AuthForm = () => {
               />
             </>
           )}
-          <Input
+          {/* <Input
             register={register}
             id="email"
             label="Your Email"
             errors={errors}
             disabled={isLoading}
             type="email"
+          /> */}
+          <TextField
+            id="email"
+            label="Email"
+            variant="outlined"
+            type="email"
+            disabled={isLoading}
+            {...register("email", { required: true })}
+            className="w-full"
+            // required
+            error={errors.email ? true : false}
+            helperText={errors.email ? "Email is required" : ""}
+          />
+          <TextField
+            id="password"
+            label="Password"
+            variant="outlined"
+            type="password"
+            {...register("password", { required: true })}
+            className="w-full"
+            // required
+            error={errors.password ? true : false}
+            helperText={errors.password ? "Password is required" : ""}
+            disabled={isLoading}
           />
           <Input
             register={register}
