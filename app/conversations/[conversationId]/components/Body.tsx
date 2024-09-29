@@ -8,6 +8,7 @@ import MessageBox from "./MessageBox";
 import { FullMessageType } from "@/app/types";
 import { find } from "lodash";
 import bg from "../../../../public/images/background1.png";
+import bg1 from "../../../../public/background.webp";
 
 interface BodyProps {
   initialMessages: FullMessageType[];
@@ -67,7 +68,7 @@ const Body: React.FC<BodyProps> = ({ initialMessages = [] }) => {
     <div
       className="flex-1 overflow-y-auto"
       style={{
-        backgroundImage: `url(${bg.src})`,
+        backgroundImage: `url(${bg1.src})`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
