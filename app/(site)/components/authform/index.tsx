@@ -1,6 +1,6 @@
 // it used to tell next that it is not a server component because it has form
 "use client";
-import Button from "@/app/components/button";
+// import Button from "@/app/components/button";
 import Input from "@/app/components/inputs";
 import React, { useCallback, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -11,6 +11,7 @@ import { toast } from "react-hot-toast";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
 type FormVariant = "LOGIN" | "REGISTER";
 const AuthForm = () => {
@@ -73,7 +74,10 @@ const AuthForm = () => {
       axios
         .post("/api/register", data)
         .then(() => signIn("credentials", data))
-        .catch(() => toast.error("Something Went Wrong!"))
+        .catch(() => {
+          toast.error("Something Went Wrong!");
+          console.log("errors", errors, data);
+        })
         .finally(() => setIsLoading(false));
     }
   };
@@ -101,11 +105,14 @@ const AuthForm = () => {
         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
           {formVariant === "REGISTER" && (
             <>
-              <Input
-                register={register}
+              <TextField
+                {...register("name", { required: true })}
                 id="name"
                 label="Your Name"
-                errors={errors}
+                error={errors.name ? true : false}
+                helperText={errors.name ? "Name is required" : ""}
+                variant="outlined"
+                className="w-full"
                 disabled={isLoading}
                 type="text"
               />
@@ -136,7 +143,13 @@ const AuthForm = () => {
             disabled={isLoading}
           />
           <div>
-            <Button disabled={isLoading} fullWidth={true} type="submit">
+            <Button
+              variant="outlined"
+              fullWidth
+              type="submit"
+              disabled={isLoading}
+              className="hover:bg-blue-500 hover:text-white"
+            >
               {formVariant === "LOGIN" ? "Sign in" : "Register"}
             </Button>
           </div>
@@ -153,13 +166,17 @@ const AuthForm = () => {
             </div>
           </div>
 
-          <div className="mt-6 flex gap-2">
-            <AuthSocialButton
-              icon={BsGithub}
+          <div className="mt-6 flex gap-2 w-full">
+            <Button
+              startIcon={<BsGithub />}
+              variant="outlined"
               onClick={() => socialSignin("github")}
+              className="w-full"
             />
-            <AuthSocialButton
-              icon={BsGoogle}
+            <Button
+              startIcon={<BsGoogle />}
+              variant="outlined"
+              className="w-full"
               onClick={() => socialSignin("google")}
             />
           </div>
