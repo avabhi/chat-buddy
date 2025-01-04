@@ -1,0 +1,1 @@
+export const BOT_USER_ID = "676130ecb541b7a99e3121c9";
