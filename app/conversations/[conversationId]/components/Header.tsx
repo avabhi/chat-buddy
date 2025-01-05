@@ -16,9 +16,10 @@ interface IHeaderProps {
   conversation: Conversation & {
     users: User[];
   };
+  isBot?: boolean;
 }
 
-const Header: React.FC<IHeaderProps> = ({ conversation }) => {
+const Header: React.FC<IHeaderProps> = ({ conversation, isBot }) => {
   const otherUser = useOtherUser(conversation);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { members } = useActiveList();
@@ -52,9 +53,11 @@ const Header: React.FC<IHeaderProps> = ({ conversation }) => {
 
           <div className="flex flex-col">
             <div>{conversation.name || otherUser.name}</div>
-            <div className="text-sm font-light text-neutral-500 ">
-              {statusText}
-            </div>
+            {!isBot && (
+              <div className="text-sm font-light text-neutral-500 ">
+                {statusText}
+              </div>
+            )}
           </div>
         </div>
         <HiEllipsisHorizontal
