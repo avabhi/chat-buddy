@@ -10,11 +10,12 @@ export default async function ConversationLayout({
   children: React.ReactNode;
 }) {
   const conversations = await getParticularConversation(BOT_USER_ID);
+
   const users = await getUsers();
   return (
     //@ts-expect-error server component
     <Sidebar>
-      <ConversationList initialItems={conversations} users={users} />
+      <ConversationList initialItems={conversations} users={users!} />
       {children}
     </Sidebar>
   );

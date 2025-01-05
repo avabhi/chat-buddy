@@ -112,7 +112,7 @@ const Body: React.FC<IBodyProps> = ({ currentUser, conversations }) => {
     <>
       {conversations[0]?.id ? (
         <div className=" flex flex-col h-full">
-          <Header conversation={conversations?.[0]} />
+          <Header conversation={conversations?.[0]} isBot />
           <div className="  p-[1rem] flex-grow overflow-auto max-h-[90vh]">
             <div className="flex w-full flex-col">
               {messages.map((msg: any, index: any) => (
